@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -47,6 +49,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
+        });
+
+        IMEI_editText.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void afterTextChanged(Editable s) {
+                TextView textView = (TextView)findViewById(R.id.LenDisplay);
+                textView.setText(String.valueOf(s.toString().length())+"/15");
+                /*if(s.toString().length()==15){
+                    textView.setTextColor(006400);
+                }
+                else {
+                    textView.setTextColor(640000);
+                }*/
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int st, int b, int c)
+            { }
+            @Override
+            public void beforeTextChanged(CharSequence s, int st, int c, int a)
+            { }
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -38,21 +38,30 @@ public class BackgroundWorker extends AsyncTask<String,String,String> {   //Acti
         }
 
         TextView status;
-
+        JSONObject object;
 
         @Override
         protected String doInBackground(String... params) {
             String result = "";
             String line;
-            String m ="";
+            String imei_status="";
+            String retval ="";
             Log.d("debug",".............................BackgroundWorker");
             String type = params[0];
             String IMEInumber = params[1];
+            if(IMEInumber.length()!=15)
+            {
+                alertDialog = new AlertDialog.Builder(context).create();
+                alertDialog.setTitle("Please Enter a 15 digit IMEI");
+                alertDialog.show();
+                return "";
+
+            }
 //        int imei_number = Integer.parseInt(IMEInumber.substring(0,7);
 //        String username = "abc";
 //        String password = "abc";
 //            String login_url = "http://10.0.2.2/IMEIjasoos/valid.php";
-            String login_url = "http://192.168.0.102/IMEIjasoos/valid.php";
+            String login_url = "http://192.168.43.95/IMEIjasoos/valid.php";
             if(type.equals("check")) try {
                 URL url = new URL(login_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -77,47 +86,71 @@ public class BackgroundWorker extends AsyncTask<String,String,String> {   //Acti
                 Log.d("debug", "...........................................result");
                 Log.d("debug", result);
 
-                if (result.equals("invalid")) {
-                    Log.d("debug", ".......................................invalid");
-                } else {
-                    Log.d("debug", "...........................................valid");
-                    Log.d("debug", result.getClass().getName());
-
-                    JSONObject object;
-                    try {
-                        object = new JSONObject(result);
-                        JSONArray jsonArray = object.getJSONArray("arr");
-                        JSONObject jsonObject = jsonArray.getJSONObject(0);
-                        m = jsonObject.getString("Manufacturer");
+                try {
+                    object = new JSONObject(result);
+                    JSONArray jsonArray = object.getJSONArray("arr");
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    imei_status = jsonObject.getString("Status");
 
 //                        status = (TextView) ((Activity)context).findViewById(R.id.status);
 //                        status.setText("hello");
+                    Log.d("debug","--------------JSON status");
+                    Log.d("debug",imei_status);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                        Log.d("debug", m);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                retval = imei_status;
+
+                if(!retval.equals("IMEI is invalid")){
+                    int sumval=0;
+                    String even_nu="";
+                    for(int i = 0; i<14;i++){
+                        //Log.d("mydebug", String.valueOf(imei_code.charAt(i)));
+                        if(i%2==0)
+                            sumval += Character.getNumericValue(IMEInumber.charAt(i));
+                        else {
+                            int temp = Character.getNumericValue(IMEInumber.charAt(i)) * 2;
+                            even_nu += temp;
+                        }
                     }
+                    Log.d("debug",Integer.toString(sumval));
+                    Log.d("debug",even_nu);
+                    for(int i = 0; i<even_nu.length(); i++) {
+                        sumval += (Character.getNumericValue(even_nu.charAt(i)));
+                    }
+                    Log.d("debug",Integer.toString(sumval));
+                    int t2 = sumval%10;
+                    if(t2>0)
+                        t2=10-t2;
+                    //  Log.d("mydebug",Integer.toString(t2));
 
-                    Log.d("debug", ".........................................after");
+                    //Log.d("mydebug",Integer.toString(Character.getNumericValue(imei_code.charAt(14))));
+
+                    if(t2==Character.getNumericValue(IMEInumber.charAt(14)))
+                        retval = "IMEI is Valid";
+                    else
+                        retval = "IMEI is Invalid";
 
                 }
+
                 bufferedReader.close();
                 inputStream.close();
                 httpURLConnection.disconnect();
-//                return result;
+                return retval;
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return m;
+            return retval;
+
         }
 
 
     @Override
         protected void onPreExecute() {
-            alertDialog = new AlertDialog.Builder(context).create();
-            alertDialog.setTitle("loginStatus");
+            /*alertDialog = new AlertDialog.Builder(context).create();
+            alertDialog.setTitle("loginStatus");*/
             Log.d("debug",".............................onPreExecute");
-
         }
 
         @Override
@@ -129,10 +162,30 @@ public class BackgroundWorker extends AsyncTask<String,String,String> {   //Acti
         protected void onPostExecute(String result) {
             Log.d("debug",".............................onPostExecute");
             Log.d("debug",result);
-            alertDialog.setMessage(result);
-            alertDialog.show();
+
             status = (TextView) ((Activity)context).findViewById(R.id.status);
-            status.setText(result);
+            String output="",str1="",str2="";
+            String temp="";
+            if(result.equals("IMEI is Valid")) {
+                try {
+                    JSONArray jsonArray = object.getJSONArray("arr");
+                    Log.d("debug", Integer.toString(jsonArray.length()));
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        temp = jsonArray.getJSONObject(i).toString();
+                        int idx = temp.indexOf(':');
+                        str1 = temp.substring(2, idx - 1);
+                        str2 = temp.substring(idx + 2, temp.length() - 2);
+                        output = output + "\n" + str1 + " : " + str2;
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            else
+                output = "Status : " + result;
+
+            status.setText(output);
 
         }
 
