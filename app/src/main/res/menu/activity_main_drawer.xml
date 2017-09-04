@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/MyIMEI"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="My IMEI" />
+        <item
+            android:id="@+id/History"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="History" />
+        <item
+            android:id="@+id/AboutUs"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="About Us" />
+    </group>
+
+</menu>
