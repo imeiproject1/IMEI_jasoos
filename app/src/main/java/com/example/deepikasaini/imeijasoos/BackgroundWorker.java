@@ -3,10 +3,15 @@ package com.example.deepikasaini.imeijasoos;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableLayout.LayoutParams;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -38,6 +43,9 @@ public class BackgroundWorker extends AsyncTask<String,String,String> {   //Acti
         }
 
         TextView status;
+        TableLayout restable;
+
+
         JSONObject object;
 
         @Override
@@ -177,13 +185,45 @@ public class BackgroundWorker extends AsyncTask<String,String,String> {   //Acti
                         str2 = temp.substring(idx + 2, temp.length() - 2);
                         output = output + "\n" + str1 + " : " + str2;
 
+                        /*TableRow tr = new TableRow(context);
+                        tr.setLayoutParams(new TableRow.LayoutParams(
+                                TableRow.LayoutParams.FILL_PARENT,
+                                TableRow.LayoutParams.WRAP_CONTENT));
+
+                        TextView a = new TextView(context);
+                        a.setText(str1);
+                        TextView b = new TextView(context);
+                        b.setText(str2);
+
+                        tr.addView(a);
+                        tr.addView(b);
+
+                        restable.addView(tr);*/
+
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-            else
+            else{
                 output = "Status : " + result;
+                /*TableRow tr = new TableRow(context);
+                tr.setLayoutParams(new TableRow.LayoutParams(
+                        TableRow.LayoutParams.FILL_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
+
+                TextView a = new TextView(context);
+                a.setText("Status");
+                TextView b = new TextView(context);
+                b.setText(result);
+
+                tr.addView(a);
+                tr.addView(b);
+
+                restable.addView(tr);*/
+            }
+
 
             status.setText(output);
 

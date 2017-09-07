@@ -40,10 +40,9 @@
         android:layout_height="wrap_content"
         android:onClick="check_imei"
         android:text="CHECK"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="32dp"
         android:layout_below="@+id/LenDisplay"
-        android:layout_toLeftOf="@+id/LenDisplay"
-        android:layout_toStartOf="@+id/LenDisplay" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/status"
@@ -64,5 +63,17 @@
         android:layout_toStartOf="@+id/scanButton"
         android:textColor="@android:color/holo_red_dark"
         android:text="0/15" />
+
+    <ScrollView android:id="@+id/resScroller"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/status"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <TableLayout android:id="@+id/resTable"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*"/>
+    </ScrollView>
 
 </RelativeLayout>
