@@ -1,6 +1,7 @@
 package com.example.deepikasaini.imeijasoos;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -65,9 +66,9 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     private Cursor queryOutput;
 
     private static final int RC_BARCODE_CAPTURE = 9001;
-    public TableLayout restable;
-    //TableRow tr = new TableRow(this);
-
+    public String resstatus;
+    //public TableLayout restable;
+    //public ProgressDialog progDailog = new ProgressDialog(MainActivity.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        Log.d("debug",".............................OnCreate");
@@ -78,7 +79,9 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         checkButton = (Button) findViewById(R.id.checkButton);
         IMEI_editText = (EditText) findViewById(R.id.IMEInumber);
         status = (TextView) findViewById(R.id.status);
-        restable = (TableLayout) findViewById(R.id.resTable);
+        //restable = (TableLayout) findViewById(R.id.resTable);
+
+
 
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     public void insertIntoDB(){
         String imei = IMEI_editText.getText().toString();
         Log.d("debug","############### pt 1");
-        String status = "Valid/Invalid";//---------------------------change this
+        String status = resstatus;//---------------------------change this
 
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -279,8 +282,8 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 //            }
 //        });
             backgroundWorker.execute(type, IMEInumber);
-            createDatabase();
-            insertIntoDB();
+           // Log.d("debug",resstatus);
+
         }
     }
     public class BackgroundWorker extends AsyncTask<String,String,String> {   //Activity,AsyncTask<String,String,String> {
@@ -298,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
         TextView status;
         TableLayout restable;
-
+        ProgressDialog progDailog = new ProgressDialog(MainActivity.this);
 
         JSONObject object;
 
@@ -320,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
             }
 
-            String login_url = "http://192.168.43.95/IMEIjasoos/valid.php";
+            String login_url = "http://192.168.110.210/IMEIjasoos/valid.php";
             if(type.equals("check")) try {
                 URL url = new URL(login_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -401,6 +404,14 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         @Override
         protected void onPreExecute() {
             Log.d("debug",".............................onPreExecute");
+            super.onPreExecute();
+
+            progDailog.setMessage("Loading...");
+            progDailog.setIndeterminate(false);
+            progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progDailog.setCancelable(true);
+            progDailog.show();
+
         }
 
         @Override
@@ -409,7 +420,8 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(String  result) {
+
             Log.d("debug", ".............................onPostExecute");
             Log.d("debug", result);
 
@@ -417,6 +429,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
             String output = "", str1 = "", str2 = "";
             String temp = "";
             if (result.equals("IMEI is Valid")) {
+                resstatus = "Valid";
                 try {
                     JSONArray jsonArray = object.getJSONArray("arr");
                     Log.d("debug", Integer.toString(jsonArray.length()));
@@ -426,14 +439,34 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                         str1 = temp.substring(2, idx - 1);
                         str2 = temp.substring(idx + 2, temp.length() - 2);
                         output = output + "\n" + str1 + " : " + str2;
+
+/*
+                        TableRow tr = new TableRow(MainActivity.this);
+                        tr.setLayoutParams(new TableLayout.LayoutParams(
+                                TableLayout.LayoutParams.FILL_PARENT,
+                                TableLayout.LayoutParams.WRAP_CONTENT));
+
+                        TextView a = new TextView(MainActivity.this);
+                        a.setText(str1);
+                        TextView b = new TextView(MainActivity.this);
+                        b.setText(str2);
+
+                        tr.addView(a);
+                        tr.addView(b);
+
+                        restable.addView(tr);*/
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else {
                 output = "Status : " + result;
+                resstatus = "Invslid";
             }
             status.setText(output);
+            progDailog.dismiss();
+            createDatabase();
+            insertIntoDB();
         }
 
     }
