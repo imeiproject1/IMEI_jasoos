@@ -22,8 +22,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
-        <activity android:name=".History" />
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".History"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".AboutUs" />
         <activity android:name=".MyIMEI" />
         <activity android:name=".BarCodeScan"/>

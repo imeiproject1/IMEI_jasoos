@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -25,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -78,10 +80,8 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         scanButton = (ImageButton) findViewById(R.id.scanButton);
         checkButton = (Button) findViewById(R.id.checkButton);
         IMEI_editText = (EditText) findViewById(R.id.IMEInumber);
-        status = (TextView) findViewById(R.id.status);
+
         //restable = (TableLayout) findViewById(R.id.resTable);
-
-
 
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,15 +298,15 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         BackgroundWorker(Context ctx){
             context = ctx;
         }
-
         TextView status;
         TableLayout restable;
         ProgressDialog progDailog = new ProgressDialog(MainActivity.this);
-
         JSONObject object;
+
 
         @Override
         protected String doInBackground(String... params) {
+
             String result = "";
             String line;
             String imei_status="";
@@ -412,6 +412,8 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
             progDailog.setCancelable(true);
             progDailog.show();
 
+            restable = new TableLayout(MainActivity.this);
+
         }
 
         @Override
@@ -426,6 +428,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
             Log.d("debug", result);
 
             status = (TextView) ((Activity) context).findViewById(R.id.status);
+           // status.setTextColor(Color.BLACK);
             String output = "", str1 = "", str2 = "";
             String temp = "";
             if (result.equals("IMEI is Valid")) {
@@ -440,30 +443,75 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                         str2 = temp.substring(idx + 2, temp.length() - 2);
                         output = output + "\n" + str1 + " : " + str2;
 
-/*
+                        restable = (TableLayout) findViewById(R.id.resTable);
+
                         TableRow tr = new TableRow(MainActivity.this);
                         tr.setLayoutParams(new TableLayout.LayoutParams(
-                                TableLayout.LayoutParams.FILL_PARENT,
+                                TableLayout.LayoutParams.MATCH_PARENT,
                                 TableLayout.LayoutParams.WRAP_CONTENT));
 
                         TextView a = new TextView(MainActivity.this);
                         a.setText(str1);
+                        a.setTextColor(Color.BLUE);
+                        a.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
+                        a.setPadding(5,5,5,5);
+
+
                         TextView b = new TextView(MainActivity.this);
                         b.setText(str2);
+                        b.setTextColor(Color.BLACK);
+                        b.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
+                        b.setPadding(5,5,5,5);
+                        b.setWidth(750);
+                        b.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                                TableRow.LayoutParams.WRAP_CONTENT));
 
                         tr.addView(a);
                         tr.addView(b);
 
-                        restable.addView(tr);*/
+                        restable.addView(tr, new TableLayout.LayoutParams(
+                                TableLayout.LayoutParams.MATCH_PARENT,
+                                TableLayout.LayoutParams.WRAP_CONTENT));
+
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else {
-                output = "Status : " + result;
-                resstatus = "Invslid";
+                restable = (TableLayout) findViewById(R.id.resTable);
+
+                TableRow tr = new TableRow(MainActivity.this);
+                tr.setLayoutParams(new TableLayout.LayoutParams(
+                        TableLayout.LayoutParams.MATCH_PARENT,
+                        TableLayout.LayoutParams.WRAP_CONTENT));
+
+                TextView a = new TextView(MainActivity.this);
+                a.setText("Status");
+                a.setTextColor(Color.BLUE);
+                a.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
+                a.setPadding(5,5,5,5);
+
+
+                TextView b = new TextView(MainActivity.this);
+                b.setText("Invalid");
+                b.setTextColor(Color.BLACK);
+                b.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
+                b.setPadding(5,5,5,5);
+                b.setWidth(750);
+                b.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                        TableRow.LayoutParams.WRAP_CONTENT));
+
+                tr.addView(a);
+                tr.addView(b);
+
+                restable.addView(tr, new TableLayout.LayoutParams(
+                        TableLayout.LayoutParams.MATCH_PARENT,
+                        TableLayout.LayoutParams.WRAP_CONTENT));
+
+                resstatus = "Invalid";
             }
-            status.setText(output);
+            //status.setText(output);
             progDailog.dismiss();
             createDatabase();
             insertIntoDB();
