@@ -12,7 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public class MyIMEI extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -26,6 +28,7 @@ public class MyIMEI extends AppCompatActivity implements AdapterView.OnItemSelec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_imei);
+
 
         myIMEI = (TextView) findViewById(R.id.myIMEI);
         spinner = (Spinner) findViewById(R.id.spinner);

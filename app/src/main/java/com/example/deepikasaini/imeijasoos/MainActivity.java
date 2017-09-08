@@ -27,6 +27,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -53,6 +55,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
 
@@ -76,6 +79,34 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 //        Log.d("debug",".............................OnCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        InputStream inputStream = getResources().openRawResource(R.raw.table_manufacturer_distinct);
+        CSVFile csvFile = new CSVFile(inputStream);
+//        String[] string_Array = new String[10];
+//        string_Array[10] = csvFile.read();
+        ArrayList<String> string_Array = csvFile.read();
+        int len = string_Array.size();
+        Log.d("debug",Integer.toString(len));
+
+        Log.d("debug","........................................");
+//        Log.d("debug",string_Array[0]);
+//        Log.d("debug",string_Array[6]);
+//        Log.d("debug", String.valueOf(string_Array[0].getClass()));
+
+
+
+//        String[] languages = { "C","C++","Java","C#","PHP","JavaScript","jQuery","AJAX","JSON" };
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, string_Array);
+        //Find TextView control
+        AutoCompleteTextView acTextView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        //Set the number of characters the user must type before the drop down list is shown
+        acTextView.setThreshold(1);
+        //Set the adapter
+        acTextView.setAdapter(adapter);
+        Log.d("debug","........................................");
+
+
+
 
         scanButton = (ImageButton) findViewById(R.id.scanButton);
         checkButton = (Button) findViewById(R.id.checkButton);
@@ -323,7 +354,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
             }
 
-            String login_url = "http://192.168.110.210/IMEIjasoos/valid.php";
+            String login_url = "http://172.16.0.171/IMEIjasoos/valid.php";
             if(type.equals("check")) try {
                 URL url = new URL(login_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -413,6 +444,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
             progDailog.show();
 
             restable = new TableLayout(MainActivity.this);
+            restable.removeAllViews();
 
         }
 
