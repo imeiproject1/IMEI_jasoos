@@ -373,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
             }
 
-            String login_url = "http://172.16.0.171/IMEIjasoos/valid.php";
+            String login_url = "http://192.168.0.108/IMEIjasoos/valid.php";
             if(type.equals("check")) try {
                 URL url = new URL(login_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -463,7 +463,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
             progDailog.show();
 
             restable = new TableLayout(MainActivity.this);
-            restable.removeAllViews();
+
 
         }
 
@@ -482,85 +482,32 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
            // status.setTextColor(Color.BLACK);
             String output = "", str1 = "", str2 = "";
             String temp = "";
+            restable.removeAllViews();
+
             if (result.equals("IMEI is Valid")) {
                 resstatus = "Valid";
                 try {
                     JSONArray jsonArray = object.getJSONArray("arr");
-                    Log.d("debug", Integer.toString(jsonArray.length()));
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        temp = jsonArray.getJSONObject(i).toString();
-                        int idx = temp.indexOf(':');
-                        str1 = temp.substring(2, idx - 1);
-                        str2 = temp.substring(idx + 2, temp.length() - 2);
-                        output = output + "\n" + str1 + " : " + str2;
+                    Log.d("debug", jsonArray.toString());
+                    Intent myintent = new Intent(MainActivity.this, Result.class);
+                    myintent.putExtra("JSONarray",jsonArray.toString());
+                    startActivity(myintent);
 
-                        restable = (TableLayout) findViewById(R.id.resTable);
-
-                        TableRow tr = new TableRow(MainActivity.this);
-                        tr.setLayoutParams(new TableLayout.LayoutParams(
-                                TableLayout.LayoutParams.MATCH_PARENT,
-                                TableLayout.LayoutParams.WRAP_CONTENT));
-
-                        TextView a = new TextView(MainActivity.this);
-                        a.setText(str1);
-                        a.setTextColor(Color.BLUE);
-                        a.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
-                        a.setPadding(5,5,5,5);
-
-
-                        TextView b = new TextView(MainActivity.this);
-                        b.setText(str2);
-                        b.setTextColor(Color.BLACK);
-                        b.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
-                        b.setPadding(5,5,5,5);
-                        b.setWidth(750);
-                        b.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                                TableRow.LayoutParams.WRAP_CONTENT));
-
-                        tr.addView(a);
-                        tr.addView(b);
-
-                        restable.addView(tr, new TableLayout.LayoutParams(
-                                TableLayout.LayoutParams.MATCH_PARENT,
-                                TableLayout.LayoutParams.WRAP_CONTENT));
-
-
-                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else {
-                restable = (TableLayout) findViewById(R.id.resTable);
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = object.getJSONArray("arr");
+                    Log.d("debug", jsonArray.toString());
+                    Intent myintent = new Intent(MainActivity.this, Result.class);
+                    myintent.putExtra("JSONarray",jsonArray.toString());
+                    startActivity(myintent);
 
-                TableRow tr = new TableRow(MainActivity.this);
-                tr.setLayoutParams(new TableLayout.LayoutParams(
-                        TableLayout.LayoutParams.MATCH_PARENT,
-                        TableLayout.LayoutParams.WRAP_CONTENT));
-
-                TextView a = new TextView(MainActivity.this);
-                a.setText("Status");
-                a.setTextColor(Color.BLUE);
-                a.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
-                a.setPadding(5,5,5,5);
-
-
-                TextView b = new TextView(MainActivity.this);
-                b.setText("Invalid");
-                b.setTextColor(Color.BLACK);
-                b.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
-                b.setPadding(5,5,5,5);
-                b.setWidth(750);
-                b.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                        TableRow.LayoutParams.WRAP_CONTENT));
-
-                tr.addView(a);
-                tr.addView(b);
-
-                restable.addView(tr, new TableLayout.LayoutParams(
-                        TableLayout.LayoutParams.MATCH_PARENT,
-                        TableLayout.LayoutParams.WRAP_CONTENT));
-
-                resstatus = "Invalid";
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
             //status.setText(output);
             progDailog.dismiss();
