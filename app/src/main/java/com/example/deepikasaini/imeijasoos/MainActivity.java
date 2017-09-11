@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -13,6 +14,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,6 +30,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -133,6 +137,15 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
             }
         });
 
+        //------------Permissions---------------------
+        int permissionCheckPhone = ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_PHONE_STATE);
+        int permissionCheckCamera = ContextCompat.checkSelfPermission(this,android.Manifest.permission.CAMERA);
+        if (permissionCheckPhone != PackageManager.PERMISSION_GRANTED || permissionCheckCamera != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.CAMERA},1);
+        }
+
+        //---------------------------------------------
+
         IMEI_editText.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -142,6 +155,12 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                 strlength = s.toString().length();
                 if(strlength==15){
                     textView.setTextColor(Color.parseColor("#2ABD13"));
+                    InputMethodManager inputManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                    View focusedView = getCurrentFocus();
+                    if (focusedView != null) {
+                        inputManager.hideSoftInputFromWindow(focusedView.getWindowToken(),
+                                InputMethodManager.HIDE_NOT_ALWAYS);
+                    }
                 }
                 else {
                     textView.setTextColor(Color.RED);
@@ -156,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
             public void beforeTextChanged(CharSequence s, int st, int c, int a)
             { }
         });
-
+        IMEI_editText.setText(getIntent().getStringExtra("IMEI"));
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

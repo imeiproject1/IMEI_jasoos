@@ -1,7 +1,10 @@
 package com.example.deepikasaini.imeijasoos;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -47,40 +50,45 @@ public class MyIMEI extends AppCompatActivity implements AdapterView.OnItemSelec
 
 
 
-        TelephonyManager telephony = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-        try {
+        TelephonyManager telephony = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
 
-            Class<?> telephonyClass = Class.forName(telephony.getClass().getName());
-            Class<?>[] parameter = new Class[1];
-            parameter[0] = int.class;
-            Method getFirstMethod = telephonyClass.getMethod("getDeviceId", parameter);
-            Log.d("SimData", getFirstMethod.toString());
-            Object[] obParameter = new Object[1];
-            obParameter[0] = 0;
-//            TelephonyManager manager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-            first = (String) getFirstMethod.invoke(telephony, obParameter);
-            obParameter[0] = 1;
-            second = (String) getFirstMethod.invoke(telephony, obParameter);
-            //myIMEI.setText("SimData: " + "first :" + first + "\n" + "SimData: " + "Second :" + second + "\n" + System.getProperty("os.version") + "\n" + Build.VERSION.SDK + "\n" + Build.DEVICE + "\n" + Build.MODEL + "\n" + Build.PRODUCT);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        first = telephony.getDeviceId(0);
+        second  = telephony.getDeviceId(1);
 
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         if (parent.getItemAtPosition(pos).toString().equals("SIM Slot 1")) {
-            myIMEI.setText("Sim Slot 1 Information: \n" + first + "\nOS Version: " + System.getProperty("os.version") + "\nSDK: " + Build.VERSION.SDK + "\nDevice: " + Build.DEVICE + "\nModel: " + Build.MODEL);
+            myIMEI.setText("IMEI: \n" + first + "\nModel: " + Build.MODEL);
 
         } else {
-            myIMEI.setText("Sim Slot 2 Information: \n" + second + "\nOS Version: " + System.getProperty("os.version") + "\nSDK: " + Build.VERSION.SDK + "\nDevice: " + Build.DEVICE + "\nModel: " + Build.MODEL);
+            myIMEI.setText("IMEI: \n" + second + "\nModel: " + Build.MODEL);
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+    public void verifyimei(View view)
+    {
+        Intent intent = new Intent(MyIMEI.this,MainActivity.class);
+        if (spinner.getSelectedItem().toString().equals("SIM Slot 1"))
+            intent.putExtra("IMEI",first);
+        else if(spinner.getSelectedItem().toString().equals("SIM Slot 2"))
+            intent.putExtra("IMEI",second);
+        else{
+            AlertDialog alert = new AlertDialog.Builder(MyIMEI.this).create();
+            alert.setMessage("Please Select a SIM");
+            alert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alert.show();
+        }
+        startActivity(intent);
     }
 }
