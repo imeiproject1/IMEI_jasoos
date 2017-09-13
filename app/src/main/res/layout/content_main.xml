@@ -5,11 +5,11 @@
     android:id="@+id/resScroller"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/status"
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
     tools:context="com.example.deepikasaini.imeijasoos.MainActivity"
     tools:showIn="@layout/app_bar_main">
+
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:ems="10"
-        android:hint="Enter IMEI"
+        android:hint="Enter IMEI*"
         android:maxLength="15"
         android:inputType="number"
         android:layout_marginLeft="41dp"
@@ -28,6 +28,15 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/LenDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/scanButton"
+        android:layout_toLeftOf="@+id/scanButton"
+        android:layout_toStartOf="@+id/scanButton"
+        android:textColor="@android:color/holo_red_dark"
+        android:text="0/15" />
 
     <ImageButton
         android:id="@+id/scanButton"
@@ -40,6 +49,57 @@
         android:layout_toRightOf="@+id/IMEInumber"
         app:srcCompat="@drawable/ic_menu_camera"
  />
+    <TextView
+        android:id="@+id/optional"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/LenDisplay"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="15sp"
+        android:layout_marginLeft="15sp"
+        android:layout_marginTop="15sp"
+        android:text="Optional Fields:" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView"
+        android:layout_width="260sp"
+        android:layout_marginTop="10sp"
+        android:hint="Brand"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/optional"
+        android:layout_centerHorizontal="true"
+
+        />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView2"
+        android:hint="Model"
+        android:layout_width="260sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/autoCompleteTextView"
+        android:layout_centerHorizontal="true"
+        />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="260sp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:layout_below="@+id/autoCompleteTextView2"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="260sp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Contact"
+        android:inputType="phone"
+        android:layout_below="@+id/editText2"
+        android:layout_alignLeft="@+id/editText2"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/checkButton"
@@ -48,101 +108,8 @@
         android:onClick="check_imei"
         android:text="CHECK"
         android:layout_marginTop="24dp"
-        android:layout_below="@+id/editText2"
+        android:layout_below="@+id/editText3"
         android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/checkButton"
-        android:layout_marginTop="25dp"
-        android:textStyle="bold"
-        android:textColor="@android:color/background_light"
-        android:textSize="20dp"
-        android:text="Result"
- />
-
-    <TextView
-        android:id="@+id/LenDisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/scanButton"
-        android:layout_toLeftOf="@+id/scanButton"
-        android:layout_toStartOf="@+id/scanButton"
-        android:textColor="@android:color/holo_red_dark"
-        android:text="0/15" />
-
-
-
-
-        <TableLayout android:id="@+id/resTable"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:stretchColumns="0,1"
-            android:layout_marginTop="5dp"
-            android:layout_below="@+id/status">
-            <!--<TableRow
-                android:id="@+id/tableRow1"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent">
-            <TextView
-                android:id="@+id/matchId" android:text="Parameter"
-                android:layout_weight="1"
-                android:textColor="@android:color/black"
-                android:gravity="center"/>
-            <TextView
-                android:id="@+id/teamA" android:text="Value"
-                android:layout_weight="1"
-                android:textColor="@android:color/black"
-                android:gravity="center"/>
-            </TableRow>-->
-
-        </TableLayout>
-
-    <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView"
-        android:layout_width="180sp"
-        android:hint="Manufacturer"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/LenDisplay"
-         />
-
-    <AutoCompleteTextView
-        android:id="@+id/autoCompleteTextView2"
-        android:hint="Model"
-        android:layout_width="180sp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/LenDisplay"
-        android:layout_toEndOf="@+id/autoCompleteTextView"
-        android:layout_toRightOf="@+id/autoCompleteTextView"
-         />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="180sp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:layout_alignBaseline="@+id/editText3"
-        android:layout_alignBottom="@+id/editText3"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:id="@+id/editText3"
-        android:layout_width="180sp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Contact"
-        android:inputType="phone"
-        android:layout_below="@+id/autoCompleteTextView2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
 
 </RelativeLayout>
 </ScrollView>

@@ -66,10 +66,10 @@ public class MyIMEI extends AppCompatActivity implements AdapterView.OnItemSelec
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         if (parent.getItemAtPosition(pos).toString().equals("SIM Slot 1")) {
-            myIMEI.setText("IMEI: \n" + first + "\nModel: " + Build.MODEL);
+            myIMEI.setText("IMEI \t: \t" + first + "\nModel \t: \t" + Build.MODEL);
 
         } else {
-            myIMEI.setText("IMEI: \n" + second + "\nModel: " + Build.MODEL);
+            myIMEI.setText("IMEI \t: \t" + second + "\nModel \t: \t" + Build.MODEL);
         }
     }
 

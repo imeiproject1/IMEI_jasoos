@@ -15,24 +15,44 @@
         app:popupTheme="@style/ToolbarStyle"/>
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Sim Slot"
+        android:id="@+id/Simtext"
+        android:layout_marginTop="25dp"
+        android:layout_below="@+id/my_toolbar"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="15sp"
+        android:textStyle="bold"
+        />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_marginLeft="15sp"
+        android:layout_marginTop="15sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/Simtext"/>
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/myIMEI"
-        android:layout_marginTop="101dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="15sp"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
         android:hint="IMEI Info"
         android:contentDescription="o"
         android:layout_below="@+id/spinner"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/my_toolbar"
-        android:layout_marginTop="25dp" />
+
 
     <Button
         android:id="@+id/button2"
