@@ -397,7 +397,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
 //        if(spinner.getSelectedItem().toString().equals(R.drawable.ic_face_black_24dp)){
         Log.d("debug","onItemSelected");
-        if(pos == 3){
+        if(pos == 1){
             Log.d("debug","3");
             Intent intent = new Intent(this, MyIMEI.class);
             startActivity(intent);
@@ -407,8 +407,8 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
             Intent intent = new Intent(this, History.class);
             startActivity(intent);
 
-        } else if (pos==1) {
-            Log.d("debug","4");
+        } else if (pos==3) {
+            Log.d("debug","3");
             Intent intent = new Intent(this, AboutUs.class);
             startActivity(intent);
 
