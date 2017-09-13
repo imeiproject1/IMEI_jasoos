@@ -11,7 +11,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -29,13 +31,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -61,10 +67,12 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Scanner;
 
-public class MainActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener {
-
+public class MainActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener,AdapterView.OnItemSelectedListener {
+    public String Manufacturer;
+    Spinner spinner;
     public ImageButton scanButton;
     public Button checkButton;
     public EditText IMEI_editText;
@@ -78,13 +86,29 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     public String resstatus;
     //public TableLayout restable;
     //public ProgressDialog progDailog = new ProgressDialog(MainActivity.this);
+//
+//    // stores the image database icons
+//    private static Integer[] imageIconDatabase = { R.drawable.ic_face_black_24dp,R.drawable.ic_history_black_24dp,R.drawable.ic_face_black_24dp};
+//
+//    // stores the image database names
+//    private String[] imageNameDatabase = { "1", "1", "3"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        Log.d("debug",".............................OnCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Context context = getApplicationContext();
 
-        InputStream inputStream = getResources().openRawResource(R.raw.table_manufacturer_distinct);
+        spinner = (Spinner) findViewById(R.id.spinner);
+        SimpleImageArrayAdapter spinnerAdapter = new SimpleImageArrayAdapter(context,
+                new Integer[]{ R.drawable.ic_phone_android_black_24dp, R.drawable.ic_history_black_24dp, R.drawable.ic_face_black_24dp});
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(this);
+
+
+        Log.d("debug","........................................");
+        InputStream inputStream = getResources().openRawResource(R.raw.table_brand_distinct_2);
         CSVFile csvFile = new CSVFile(inputStream);
 //        String[] string_Array = new String[10];
 //        string_Array[10] = csvFile.read();
@@ -100,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
 
 //        String[] languages = { "C","C++","Java","C#","PHP","JavaScript","jQuery","AJAX","JSON" };
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, string_Array);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.select_dialog_singlechoice, string_Array);
         //Find TextView control
         AutoCompleteTextView acTextView = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         //Set the number of characters the user must type before the drop down list is shown
@@ -108,6 +132,40 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         //Set the adapter
         acTextView.setAdapter(adapter);
         Log.d("debug","........................................");
+
+//        String Manufacturer = acTextView.getText().toString();
+//        Log.d("debug",Manufacturer);
+
+        acTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+//                Log.i("SELECTED TEXT WAS------->", (String) arg0.getItemAtPosition(arg2));
+
+                Manufacturer = (String)arg0.getItemAtPosition(arg2);
+                Log.d("debug",Manufacturer);
+
+                InputStream inputStream2 = getResources().openRawResource(R.raw.table_brand_model_distinct_2);
+                CSVFileSecond csvFile2 = new CSVFileSecond(inputStream2,Manufacturer);
+                ArrayList<String> string_Array2 = csvFile2.read();
+
+
+                Log.d("debug",".2nd autocomplete textview.");
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(MainActivity.this,android.R.layout.select_dialog_singlechoice, string_Array2);
+                //Find TextView control
+                AutoCompleteTextView acTextView2 = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView2);
+                //Set the number of characters the user must type before the drop down list is shown
+                acTextView2.setThreshold(1);
+                //Set the adapter
+                acTextView2.setAdapter(adapter2);
+                Log.d("debug","2nd autocomplete textview");
+
+//                Manufacturer = (String)arg0.getItemAtPosition(arg2);
+//                Log.d("debug",Manufacturer);
+
+            }
+        });
+//        Manufacturer="Samsung";
+
 
 
 
@@ -136,16 +194,14 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                         .setAction("Action", null).show();
             }
         });
-
-        //------------Permissions---------------------
-        int permissionCheckPhone = ContextCompat.checkSelfPermission(this,android.Manifest.permission.READ_PHONE_STATE);
-        int permissionCheckCamera = ContextCompat.checkSelfPermission(this,android.Manifest.permission.CAMERA);
-        if (permissionCheckPhone != PackageManager.PERMISSION_GRANTED || permissionCheckCamera != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.READ_PHONE_STATE, android.Manifest.permission.CAMERA},1);
-        }
-
-        //---------------------------------------------
-
+        int flags[] = {R.drawable.ic_face_black_24dp,R.drawable.ic_history_black_24dp,R.drawable.ic_face_black_24dp};
+        String flag_String[] = {"1","2","3"};
+//        Spinner spin = (Spinner) findViewById(R.id.spinner);
+////        spin.setOnItemSelectedListener(this);
+//
+//        ArrayAdapter<Integer> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, flags);
+//        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spin.setAdapter(dataAdapter);
         IMEI_editText.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -227,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     private void showPeoples() {
         Intent intent = new Intent(this, History.class);
         startActivity(intent);
-        //finish();
+        finish();
     }
 
     @Override
@@ -255,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        /*if (id == R.id.action_settings) {
+       /* if (id == R.id.action_settings) {
             return true;
         }
 */
@@ -336,6 +392,34 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
         }
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+//        if(spinner.getSelectedItem().toString().equals(R.drawable.ic_face_black_24dp)){
+        Log.d("debug","onItemSelected");
+        if(pos == 3){
+            Log.d("debug","3");
+            Intent intent = new Intent(this, MyIMEI.class);
+            startActivity(intent);
+        }
+        else if (pos==2) {
+            Log.d("debug","2");
+            Intent intent = new Intent(this, History.class);
+            startActivity(intent);
+
+        } else if (pos==1) {
+            Log.d("debug","4");
+            Intent intent = new Intent(this, AboutUs.class);
+            startActivity(intent);
+
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
     public class BackgroundWorker extends AsyncTask<String,String,String> {   //Activity,AsyncTask<String,String,String> {
 
 //    @Override
@@ -463,7 +547,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
             progDailog.show();
 
             restable = new TableLayout(MainActivity.this);
-
+            restable.removeAllViews();
 
         }
 

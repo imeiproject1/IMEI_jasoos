@@ -29,7 +29,8 @@ public class CSVFile {
 
 //                Log.d("debug",temp[0]);
 //                result[i]=country[0];
-                temp[0] = temp[0].substring(1,temp[0].length()-1);
+//                temp[0] = temp[0].substring(1,temp[0].length()-1);
+                temp[0]=temp[0].toString();
                 result.add(temp[0]);
 //                System.out.println("Country [code= " + country[4] + " , name=" + country[5] + "]");
                 i++;

@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context="com.example.deepikasaini.imeijasoos.AboutUs"
+    android:background="@drawable/a3">
     tools:context="com.example.deepikasaini.imeijasoos.AboutUs">
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -15,4 +17,23 @@
         app:popupTheme="@style/ToolbarStyle"/>
 
 
+    <TextView
+        android:id="@+id/A"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/cast_libraries_material_featurehighlight_inner_radius"
+        tools:layout_editor_absoluteX="139dp"
+        tools:layout_editor_absoluteY="69dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="307dp"
+        android:layout_height="201dp"
+        android:text="This app is developed by Center for Development of Telematics (CDOT), Delhi. With this app, you can verify any IMEI number and can get all information related of that device as registered in global GSMA database. You can also check for blacklisted number and can also get information of your phone even if you don't know your own IMEI number.\n App version: v1.0"
+        android:textColor="@color/cast_libraries_material_featurehighlight_text_header_color"
+        android:textColorLink="@color/wallet_highlighted_text_holo_dark"
+        tools:layout_editor_absoluteX="36dp"
+        tools:layout_editor_absoluteY="196dp" />
 </android.support.constraint.ConstraintLayout>
