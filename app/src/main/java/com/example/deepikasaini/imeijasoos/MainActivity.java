@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     private void showPeoples() {
         Intent intent = new Intent(this, History.class);
         startActivity(intent);
-        finish();
+        //finish();
     }
 
     @Override
@@ -373,7 +373,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 
             }
 
-            String login_url = "http://192.168.0.108/IMEIjasoos/valid.php";
+            String login_url = "http://192.168.110.104/IMEIjasoos/valid.php";
             if(type.equals("check")) try {
                 URL url = new URL(login_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();

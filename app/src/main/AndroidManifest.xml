@@ -26,11 +26,32 @@
         <activity android:name=".MainActivity"
             android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".History"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".AboutUs" />
-        <activity android:name=".MyIMEI" />
-        <activity android:name=".BarCodeScan"/>
-        <activity android:name=".Result"/>
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".AboutUs" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".MyIMEI" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".BarCodeScan">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity android:name=".Result">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
