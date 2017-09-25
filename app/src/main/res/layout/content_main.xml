@@ -8,7 +8,9 @@
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
     tools:context="com.example.deepikasaini.imeijasoos.MainActivity"
-    tools:showIn="@layout/app_bar_main">
+    tools:showIn="@layout/app_bar_main"
+    android:background="@drawable/a2"
+    >
 
 <RelativeLayout
     android:layout_width="match_parent"
@@ -27,7 +29,9 @@
         android:layout_marginStart="41dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="#fff"
+        android:textColorHint="#fff"/>
     <TextView
         android:id="@+id/LenDisplay"
         android:layout_width="wrap_content"
@@ -36,6 +40,7 @@
         android:layout_toLeftOf="@+id/scanButton"
         android:layout_toStartOf="@+id/scanButton"
         android:textColor="@android:color/holo_red_dark"
+        android:textStyle="bold"
         android:text="0/15" />
 
     <ImageButton
@@ -54,10 +59,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/LenDisplay"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="#fff"
         android:textSize="15sp"
         android:layout_marginLeft="15sp"
         android:layout_marginTop="15sp"
+
         android:text="Optional Fields:" />
 
     <AutoCompleteTextView
@@ -68,6 +74,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/optional"
         android:layout_centerHorizontal="true"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
 
         />
 
@@ -78,6 +86,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/autoCompleteTextView"
         android:layout_centerHorizontal="true"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
         />
 
     <EditText
@@ -88,7 +98,9 @@
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:layout_below="@+id/autoCompleteTextView2"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#fff"
+        android:textColorHint="#fff"/>
 
     <EditText
         android:id="@+id/editText3"
@@ -99,7 +111,9 @@
         android:inputType="phone"
         android:layout_below="@+id/editText2"
         android:layout_alignLeft="@+id/editText2"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#fff"
+        android:textColorHint="#fff"/>
 
     <Button
         android:id="@+id/checkButton"

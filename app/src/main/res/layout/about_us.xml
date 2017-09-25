@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.deepikasaini.imeijasoos.AboutUs"
-    android:background="@drawable/a3">
-    tools:context="com.example.deepikasaini.imeijasoos.AboutUs">
+    android:background="@drawable/a2">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="56dp"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/Toolbartheme"
-        app:popupTheme="@style/ToolbarStyle"/>
+        app:popupTheme="@style/ToolbarStyle"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp" />
 
 
     <TextView
@@ -22,18 +24,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="About"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#fff"
+        android:textAllCaps="true"
         android:textSize="@dimen/cast_libraries_material_featurehighlight_inner_radius"
         tools:layout_editor_absoluteX="139dp"
-        tools:layout_editor_absoluteY="69dp" />
+        tools:layout_editor_absoluteY="69dp"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="307dp"
         android:layout_height="201dp"
         android:text="This app is developed by Center for Development of Telematics (CDOT), Delhi. With this app, you can verify any IMEI number and can get all information related of that device as registered in global GSMA database. You can also check for blacklisted number and can also get information of your phone even if you don't know your own IMEI number.\n App version: v1.0"
-        android:textColor="@color/cast_libraries_material_featurehighlight_text_header_color"
+        android:textColor="#fff"
         android:textColorLink="@color/wallet_highlighted_text_holo_dark"
         tools:layout_editor_absoluteX="36dp"
-        tools:layout_editor_absoluteY="196dp" />
-</android.support.constraint.ConstraintLayout>
+        tools:layout_editor_absoluteY="196dp"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="146dp" />
+</RelativeLayout>

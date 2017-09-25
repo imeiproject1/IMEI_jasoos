@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
     private void showPeoples() {
         Intent intent = new Intent(this, History.class);
         startActivity(intent);
-        finish();
+        //finish();
     }
 
     @Override
@@ -425,7 +425,6 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
-
 
         Context context;
         AlertDialog alertDialog;

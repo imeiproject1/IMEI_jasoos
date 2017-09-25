@@ -59,14 +59,14 @@ public class Result extends AppCompatActivity {
 
             TextView a = new TextView(Result.this);
             a.setText(str1);
-            a.setTextColor(Color.BLUE);
+            a.setTextColor(Color.CYAN);
             a.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
             a.setPadding(5,5,5,5);
 
 
             TextView b = new TextView(Result.this);
             b.setText(str2);
-            b.setTextColor(Color.BLACK);
+            b.setTextColor(Color.WHITE);
             b.setTypeface(Typeface.DEFAULT,Typeface.BOLD);
             b.setPadding(5,5,5,5);
             b.setWidth(750);

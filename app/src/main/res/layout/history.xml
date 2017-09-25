@@ -7,13 +7,14 @@
     android:orientation="vertical"
     tools:context="net.simplifiedcoding.sqlitedbcode.ViewPeople"
     android:weightSum="1"
-    android:touchscreenBlocksFocus="false">
+    android:touchscreenBlocksFocus="false"
+    android:background="@drawable/a2">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/colorPrimary"
         android:elevation="4dp"
         android:theme="@style/Toolbartheme"
         app:popupTheme="@style/ToolbarStyle"/>
@@ -25,8 +26,9 @@
         android:text="HISTORY"
         android:layout_marginTop="25sp"
         android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="#fff"
         android:textIsSelectable="false"
+
         android:textSize="25dp" />
 
     <ScrollView
@@ -39,7 +41,7 @@
         android:layout_height="wrap_content"
         android:enabled="false"
         android:id="@+id/historyrecord"
-        android:textColor="#62af04" />
+        android:textColor="#fff"/>
 </ScrollView>
     <!--<ListView-->
     <!--android:layout_width="match_parent"-->
